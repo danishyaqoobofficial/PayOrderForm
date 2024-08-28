@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+    <style>
+        #preview_container {
+            transition: height 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <form class="py-10 sm:py-12 md:py-20 px-8 sm:px-10 md:px-16 bg-black h-full w-full">
+        <div class="rounded-xl border border-[#3b3b3b] h-[50px] sm:h-[55px] flex overflow-hidden">
+            <div class="w-[100px] h-full px-3 bg-[#4e4e4e]">
+                <select class="bg-[#4e4e4e] h-full w-full outline-none text-[#a4a4a4]" name="currency" id="currency" value="EUR">
+                    <option selected value="USD">AED</option>
+                    <option value="USD">PAK</option>
+                    <option value="EUR">UK</option>
+                    <option value="GBP">UAE</option>
+                    <option value="JPY">JPN</option>
+                </select>                
+            </div>
+            <input type="text" class="h-full w-full px-4 py-3 text-[#a4a4a4] outline-none bg-transparent flex-1" placeholder="Enter Amount" name="" id="">
+        </div>
+        <div class="rounded-3xl bg-[#282828] flex items-center cursor-pointer mt-6 relative justify-center flex-col p-8 sm:p-12 md:p-20 w-full border-[4px] border-[#3b3b3b] border-dashed border-spacing-[20px]" id="preview_container">
+            <input class="absolute h-full w-full opacity-0 cursor-pointer" type="file" accept="image/png, image/jpeg, image/jpg" id="input_file">
+            <span class="rounded-xl bg-[#4d4d4d] flex items-center justify-center p-4 sm:p-5">
+                <svg class="fill-white h-[22px] sm:h-[30px] w-[22px] sm:w-[30px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/>
+                </svg>
+            </span>
+            <h2 class="mt-4 text-white font-normal text-center text-[22px] sm:text-[24px] md:text-[28px] select-none">
+                Drag & drop file, or <span class="text-[#d5b560]">Browse</span>
+            </h2>
+            <img class="max-w-[500px] object-contain mt-4 hidden rounded-xl max-h-[500px] object-top" src="" alt="Image Preview" id="image_preview">
+        </div>      
+        <div class="flex items-start justify-between mt-8 py-4 border-b border-[#282828]">
+            <div class="flex gap-2">
+                <span class="rounded-full flex items-center justify-center h-[44px] w-[44px] bg-[#fd655c] ">
+                    <svg class="h-[23px] w-[23px] fill-white " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>
+                </span>
+                <div>
+                    <h3 id="file_info" class="text-[#9b9b9b]">bill-payment.pdf</h3>
+                    <p class="text-[#9b9b9b] text-sm">3 MB</p>
+                </div>
+            </div>
+            <span class="cursor-pointer">
+                <svg class="fill-[#9b9b9b] text-[18px] w-[18px] " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+            </span>
+        </div>
+        <div class="py-4 flex items-center justify-end">
+            <button class="bg-[#d5b560] rounded-md flex items-center select-none justify-center py-3 px-6 text-black cursor-pointer font-medium">
+                Submit
+            </button>
+        </div>
+    </form>
+    <script>
+        
+        document.getElementById('input_file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('preview_container');
+            const imagePreview = document.getElementById('image_preview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    previewContainer.style.height = '[400px]';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.src = '';
+                imagePreview.classList.add('hidden');
+                previewContainer.style.height = '';
+            }
+        });
+    </script>
+</body>
+</html>
